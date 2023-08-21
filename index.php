@@ -1,6 +1,11 @@
 <?php
   session_start();
 
+  if($_SESSION['token'] != "" && !is_null($_SESSION['token']) && isset($_SESSION['token'])) {
+    header("location: home.php");
+    exit();
+  }
+
   if($_REQUEST['e'] == 1){
     $erro = 1;
     $msg_erro = "Todos os campos são obrigatórios.";
@@ -28,9 +33,6 @@
     <!-- CSS Files -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
     <link href="assets/css/paper-dashboard.css?v=2.0.1" rel="stylesheet" />
-
-    <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link href="assets/demo/demo.css" rel="stylesheet" />
   </head>
 
   <body>
@@ -72,17 +74,7 @@
             </div>
         </div>
 
-        <footer class="footer" style="position: absolute; bottom: 0; width: -webkit-fill-available;">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="credits ml-auto">
-                <span class="copyright text-light">
-                  © 2023 by <a href="https://genesisdevstudio.com" target="_blank" style="text-decoration: none;">Genesis Dev Studio</a>
-                </span>
-              </div>
-            </div>
-          </div>
-        </footer>
+        <?php include("assets/includes/footer.php"); ?>
       </div>
     </div>
 

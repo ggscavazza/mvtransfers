@@ -39,4 +39,57 @@
             return false;
         }
     }
+
+    function buscaViagens($status=null)
+    {
+        global $conn;
+        global $table_prefix;
+
+        $sel = "SELECT * FROM {$table_prefix}_viagens WHERE status='$status' ORDER BY id ASC";
+        $res = mysqli_query($conn, $sel);
+
+        return $res;
+    }
+
+    function buscaNome($token=null)
+    {
+        global $conn;
+        global $table_prefix;
+
+        $sel = "SELECT nome FROM {$table_prefix}_usuarios WHERE token='$token'";
+        $res = mysqli_query($conn, $sel);
+        $lnh = mysqli_fetch_array($res);
+
+        $retorno = $lnh['nome'];
+
+        return $retorno;
+    }
+
+    function buscaEmail($token=null)
+    {
+        global $conn;
+        global $table_prefix;
+
+        $sel = "SELECT email FROM {$table_prefix}_usuarios WHERE token='$token'";
+        $res = mysqli_query($conn, $sel);
+        $lnh = mysqli_fetch_array($res);
+
+        $retorno = $lnh['email'];
+
+        return $retorno;
+    }
+
+    function buscaTelefone($token=null)
+    {
+        global $conn;
+        global $table_prefix;
+
+        $sel = "SELECT telefone FROM {$table_prefix}_usuarios WHERE token='$token'";
+        $res = mysqli_query($conn, $sel);
+        $lnh = mysqli_fetch_array($res);
+
+        $retorno = $lnh['telefone'];
+
+        return $retorno;
+    }
 ?>

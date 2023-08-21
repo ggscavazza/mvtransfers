@@ -1,3 +1,15 @@
+<?php
+  session_start();
+  include("assets/lib/funcoes.php");
+  //include("assets/lib/validate.php");
+
+  $nome = $_SESSION['nome'];
+  $token = $_SESSION['token'];
+
+  $status = 2; // Status das viagens que preencherão a lista. As opções são: 0 - cancelada | 1 - aprovada | 2 - em analise
+  $retorno = buscaViagens($status);
+?>
+
 <!doctype html>
 <html>
 <head>
@@ -15,124 +27,131 @@
   <!-- CSS Files -->
   <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
   <link href="assets/css/paper-dashboard.css?v=2.0.1" rel="stylesheet" />
-  <!-- CSS Just for demo purpose, don't include it in your project -->
-  <link href="assets/demo/demo.css" rel="stylesheet" />
 </head>
 
 <body class="">
   <div class="wrapper ">
-    <div class="sidebar" data-color="white" data-active-color="danger">
-      <div class="logo">
-        <a href="https://www.creative-tim.com" class="simple-text logo-mini">
-          <!-- <div class="logo-image-small">
-            <img src="assets/img/logo-small.png">
-          </div> -->
-          <!-- <p>CT</p> -->
-        </a>
-        <a href="https://www.creative-tim.com" class="simple-text logo-normal">
-          Your Logo
-          <!-- <div class="logo-image-big">
-            <img src=".assets/img/logo-big.png">
-          </div> -->
+    <!-- data-color: white || black / data-active-color: primary || info || success || warning || danger -->
+    <div class="sidebar" data-color="black" data-active-color="info"> 
+      <div class="logo" style="display:flex; justify-content: center;">
+        <a href="home.php" class="simple-text logo-normal bg-light" style="border-radius: 150px; padding: 15px; width: 150px; height: 150px; display: flex; justify-content: center; align-items: center;">
+          <div class="logo-image-big" style="width: auto;">
+            <img src="assets/img/logo_color_01.png" width="100%">
+          </div>
         </a>
       </div>
+
       <div class="sidebar-wrapper">
         <ul class="nav">
-          <li class="active ">
-            <a href="javascript:;">
-              <i class="nc-icon nc-bank"></i>
-              <p>First Item</p>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:;">
-              <i class="nc-icon nc-diamond"></i>
-              <p>Second Item</p>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:;">
+          <li class="active">
+            <a href="home.php">
               <i class="nc-icon nc-pin-3"></i>
-              <p>Third Item</p>
+              <p>Viagens</p>
+            </a>
+          </li>
+          <li>
+            <a href="parceiros.php">
+              <i class="nc-icon nc-delivery-fast"></i>
+              <p>Parceiros</p>
+            </a>
+          </li>
+          <li>
+            <a href="usuarios.php">
+              <i class="nc-icon nc-circle-10"></i>
+              <p>Usuários</p>
+            </a>
+          </li>
+          <li>
+            <a href="perfil.php">
+              <i class="nc-icon nc-touch-id"></i>
+              <p>Perfil</p>
+            </a>
+          </li>          
+          <li>
+            <a href="desconectar.php">
+              <i class="nc-icon nc-button-power"></i>
+              <p>Sair</p>
             </a>
           </li>
         </ul>
       </div>
     </div>
+
     <div class="main-panel" style="height: 100vh;">
-      <!-- Navbar -->
-      <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
-        <div class="container-fluid">
-          <div class="navbar-wrapper">
-            <div class="navbar-toggle">
-              <button type="button" class="navbar-toggler">
-                <span class="navbar-toggler-bar bar1"></span>
-                <span class="navbar-toggler-bar bar2"></span>
-                <span class="navbar-toggler-bar bar3"></span>
-              </button>
-            </div>
-            <a class="navbar-brand" href="javascript:;">Title</a>
-          </div>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-bar navbar-kebab"></span>
-            <span class="navbar-toggler-bar navbar-kebab"></span>
-            <span class="navbar-toggler-bar navbar-kebab"></span>
-          </button>
-          <div class="collapse navbar-collapse justify-content-end" id="navigation">
-            <form>
-              <div class="input-group no-border">
-                <input type="text" value="" class="form-control" placeholder="Search...">
-                <div class="input-group-append">
-                  <div class="input-group-text">
-                    <i class="nc-icon nc-zoom-split"></i>
-                  </div>
-                </div>
-              </div>
-            </form>
-            <ul class="navbar-nav">
-              <li class="nav-item btn-rotate dropdown">
-                <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i class="nc-icon nc-bell-55"></i>
-                  <p>
-                    <span class="d-lg-none d-md-block">Some Actions</span>
-                  </p>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href="#">Action</a>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-      <!-- End Navbar -->
+      <?php include("assets/includes/navbar.php"); ?>
+
       <div class="content">
         <div class="row">
           <div class="col-md-12">
-            <h3 class="description">Your content here</h3>
-          </div>
-        </div>
-      </div>
-      <footer class="footer" style="position: absolute; bottom: 0; width: -webkit-fill-available;">
-        <div class="container-fluid">
-          <div class="row">
-            <nav class="footer-nav">
-              <ul>
-                <li><a href="https://www.creative-tim.com" target="_blank">Creative Tim</a></li>
-                <li><a href="https://www.creative-tim.com/blog" target="_blank">Blog</a></li>
-                <li><a href="https://www.creative-tim.com/license" target="_blank">Licenses</a></li>
-              </ul>
-            </nav>
-            <div class="credits ml-auto">
-              <span class="copyright">
-                © 2020, made with <i class="fa fa-heart heart"></i> by Creative Tim
-              </span>
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title"> Viagens para análise</h4>
+              </div>
+
+              <div class="card-body">
+                <div class="table">
+                  <table class="table table-striped">
+                    <thead class=" text-primary">
+                      <th>Nome</th>
+                      <th>E-mail</th>
+                      <th>Telefone</th>
+                      <th>Trajeto</th>
+                      <th>Informações</th>
+                    </thead>
+
+                    <tbody>
+                      <?php while($dados = mysqli_fetch_array($retorno)){ ?>
+                        <?php
+                          $tkn_cliente = $dados['solicitante'];
+                          $nome_cliente = buscaNome($tkn_cliente);
+                          $email_cliente = buscaEmail($tkn_cliente);
+                          $tel_cliente = buscaTelefone($tkn_cliente);
+                        ?>
+                        <tr>
+                          <td><?=$nome_cliente;?></td>
+                          <td><?=$email_cliente;?></td>
+                          <td><?=$tel_cliente;?></td>
+                          <td><?=$dados['origem'];?> à <?=$dados['destino'];?></td>
+                          <td>
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#tkn_cliente">
+                              Ver detalhes
+                            </button>
+                          </td>
+                        </tr>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="tkn_cliente" tabindex="-1" role="dialog" aria-labelledby="tkn_clienteLabel" aria-hidden="true">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="tkn_clienteLabel"><?=$nome_cliente;?></h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+
+                              <div class="modal-body">
+                                ...
+                              </div>
+
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      <?php } ?>                      
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </footer>
+      </div>
+
+      <?php include("assets/includes/footer.php"); ?>
     </div>
   </div>
   <!--   Core JS Files   -->
