@@ -173,39 +173,45 @@
                                       <input type="text" id="disabledData" class="form-control" placeholder="<?=$data_ida;?> às <?=$dados['hora_ida'];?>">
                                     </div>
 
-                                    <div class="form-group">
-                                      <label for="disabledPessoas">Quantas pessoas?</label>
-                                      <input type="text" id="disabledPessoas" class="form-control" placeholder="<?=$dados['qnt_pessoas'];?>">
+                                    <div style="display: flex; justify-content: between; width: 100%; gap: 15px;">                                      
+                                      <div class="form-group">
+                                        <label for="disabledPessoas">Quantas pessoas?</label>
+                                        <input type="text" id="disabledPessoas" class="form-control" placeholder="<?=$dados['qnt_pessoas'];?>">
+                                      </div>
+  
+                                      <div class="form-group">
+                                        <label for="disabledCriancas">Quantas crianças?</label>
+                                        <input type="text" id="disabledCriancas" class="form-control" placeholder="<?=$dados['qnt_criancas'];?>">
+                                      </div>
                                     </div>
 
-                                    <div class="form-group">
-                                      <label for="disabledCriancas">Quantas crianças?</label>
-                                      <input type="text" id="disabledCriancas" class="form-control" placeholder="<?=$dados['qnt_criancas'];?>">
+                                    <div style="display: flex; justify-content: between; width: 100%; gap: 15px;">
+                                      <div class="form-group">
+                                        <label for="disabledMalas">Quantas malas?</label>
+                                        <input type="text" id="disabledMalas" class="form-control" placeholder="<?=$dados['qnt_malas'];?>">
+                                      </div>
+
+                                      <div class="form-group">
+                                        <label for="disabledViatura">Tamanho da viatura:</label>
+                                        <input type="text" id="disabledViatura" class="form-control" placeholder="<?=$tam_viatura;?>">
+                                      </div>
                                     </div>
 
-                                    <div class="form-group">
-                                      <label for="disabledMalas">Quantas malas?</label>
-                                      <input type="text" id="disabledMalas" class="form-control" placeholder="<?=$dados['qnt_malas'];?>">
-                                    </div>
+                                    <div style="display: flex; justify-content: between; width: 100%; gap: 15px;">
+                                      <div class="form-group">
+                                        <label for="disabledValor">Valor estimado:</label>
+                                        <input type="text" id="disabledValor" class="form-control" placeholder="<?=$dados['valor_viagem'];?> €">
+                                      </div>
 
-                                    <div class="form-group">
-                                      <label for="disabledViatura">Tamanho da viatura:</label>
-                                      <input type="text" id="disabledViatura" class="form-control" placeholder="<?=$tam_viatura;?>">
-                                    </div>
+                                      <div class="form-group">
+                                        <label for="disabledTempo">Tempo estimado:</label>
+                                        <input type="text" id="disabledTempo" class="form-control" placeholder="<?=$dados['tempo_viagem'];?>">
+                                      </div>
 
-                                    <div class="form-group">
-                                      <label for="disabledValor">Valor estimado:</label>
-                                      <input type="text" id="disabledValor" class="form-control" placeholder="<?=$dados['valor_viagem'];?> €">
-                                    </div>
-
-                                    <div class="form-group">
-                                      <label for="disabledTempo">Tempo estimado:</label>
-                                      <input type="text" id="disabledTempo" class="form-control" placeholder="<?=$dados['tempo_viagem'];?>">
-                                    </div>
-
-                                    <div class="form-group">
-                                      <label for="disabledDist">Distância:</label>
-                                      <input type="text" id="disabledDist" class="form-control" placeholder="<?=$dados['distancia'];?> KM">
+                                      <div class="form-group">
+                                        <label for="disabledDist">Distância:</label>
+                                        <input type="text" id="disabledDist" class="form-control" placeholder="<?=$dados['distancia'];?> KM">
+                                      </div>
                                     </div>
                                   </fieldset>
 
