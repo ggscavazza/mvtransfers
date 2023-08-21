@@ -8,6 +8,24 @@
 
   $status = 2; // Status das viagens que preencherão a lista. As opções são: 0 - cancelada | 1 - aprovada | 2 - em analise
   $retorno = buscaViagens($status);
+
+  if($_REQUEST['e'] == 1){
+    $erro = 1;
+    $msg_erro = "Erro ao tentar aceitar a viagem.";
+  }else if($_REQUEST['e'] == 2){
+    $erro = 1;
+    $msg_erro = "Erro ao tentar recusar a viagem.";
+  }
+
+  if($_REQUEST['a'] == 1){
+    $sucesso = 1;
+    $msg_sucesso = "Viagem aceita com sucesso.";
+  }
+  
+  if($_REQUEST['r'] == 1){
+    $sucesso = 1;
+    $msg_sucesso = "Viagem recusada com sucesso.";
+  }
 ?>
 
 <!doctype html>
@@ -79,6 +97,28 @@
 
     <div class="main-panel" style="height: 100vh;">
       <?php include("assets/includes/navbar.php"); ?>
+
+      <?php if($erro == 1){ ?>
+        <div style="display: flex; justify-content: flex-end; top: 30px; right: 10px; position: absolute; width: 400px;">
+          <div class="alert alert-danger alert-dismissible fade show col-md-12">
+            <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
+              <i class="nc-icon nc-simple-remove"></i>
+            </button>
+            <span><b>Ops!</b> <?=$msg_erro;?></span>
+          </div>
+        </div>
+      <?php } ?>
+
+      <?php //if($sucesso == 1){ ?>
+        <div style="display: flex; justify-content: flex-end; top: 30px; right: 10px; position: absolute; width: 400px;">
+          <div class="alert alert-success alert-dismissible fade show col-md-12">
+            <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
+              <i class="nc-icon nc-simple-remove"></i>
+            </button>
+            <span><b>Feito!</b> <?=$msg_erro;?></span>
+          </div>
+        </div>
+      <?php //} ?>
 
       <div class="content">
         <div class="row">
@@ -216,7 +256,6 @@
                                   </fieldset>
 
                                   <div class="mb-2" style="display: flex; justify-content: flex-end; gap: 15px; width: 100%;">
-                                    <input type="hidden" name="tkn_solicitante" value="<?=$tkn_cliente;?>">
                                     <input type="hidden" name="id_viagem" value="<?=$dados['id'];?>">
                                     <input type="submit" class="btn btn-success" name="aceitar" value="Aceitar">
                                     <input type="submit" class="btn btn-danger" name="recusar" value="Recusar">
