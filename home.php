@@ -1,7 +1,7 @@
 <?php
   session_start();
   include("assets/lib/funcoes.php");
-  //include("assets/lib/validate.php");
+  include("assets/lib/validate.php");
 
   $nome = $_SESSION['nome'];
   $token = $_SESSION['token'];
