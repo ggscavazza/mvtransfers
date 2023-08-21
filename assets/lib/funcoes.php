@@ -121,17 +121,15 @@
         global $conn;
         global $table_prefix;
 
-        exit("entrou");
-
         if(is_null($id_viagem) || $id_viagem == ""){
             return false;
         }else{
-            $sel = "SELECT id FROM {$table_prefix}_viagens WHERE id='{$id_viagem}'";
+            $sel = "SELECT * FROM {$table_prefix}_viagens WHERE id='{$id_viagem}'";
             $res = mysqli_query($conn, $sel);
             $num = mysqli_num_rows($res);
 
             if($num > 0){
-                $updt = "UPDATE {$table_prefix}_viagens SET status=0 WHERE id='{$id_viagem}'}";
+                $updt = "UPDATE {$table_prefix}_viagens SET status=0 WHERE id='{$id_viagem}'";
                 mysqli_query($conn, $updt);
 
                 return true;
