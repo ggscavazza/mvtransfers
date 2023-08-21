@@ -121,6 +121,8 @@
         global $conn;
         global $table_prefix;
 
+        exit("entrou");
+
         if(is_null($id_viagem) || $id_viagem == ""){
             return false;
         }else{
