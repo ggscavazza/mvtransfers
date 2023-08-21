@@ -146,7 +146,7 @@
                               </div>
 
                               <div class="modal-body">
-                                <form>
+                                <form action="assets/actions/viagem.php">
                                   <fieldset disabled>
                                     <div class="form-group">
                                       <label for="disabledNome">Nome:</label>
@@ -215,8 +215,12 @@
                                     </div>
                                   </fieldset>
 
-                                  <input type="submit" class="btn btn-success" name="aceitar" value="\ea21 Aceitar">
-                                  <input type="submit" class="btn btn-danger" name="recusar" value="\ea4f Recusar">
+                                  <div class="mb-2" style="display: flex; justify-content: flex-end; width: 100%;">
+                                    <input type="hidden" name="tkn_solicitante" value="<?=$tkn_cliente;?>">
+                                    <input type="hidden" name="id_viagem" value="<?=$dados['id'];?>">
+                                    <input type="submit" class="btn btn-success" name="aceitar" value="Aceitar">
+                                    <input type="submit" class="btn btn-danger" name="recusar" value="Recusar">
+                                  </div>
                                 </form>
                               </div>
 
