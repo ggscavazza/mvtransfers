@@ -99,7 +99,7 @@
       <?php include("assets/includes/navbar.php"); ?>
 
       <?php if($erro == 1){ ?>
-        <div style="display: flex; justify-content: flex-end; top: 110px; right: 10px; position: absolute; width: 400px;">
+        <div style="display: flex; justify-content: flex-end; top: 110px; right: 10px; position: absolute; width: 400px; z-index: 99;">
           <div class="alert alert-danger alert-dismissible fade show col-md-12">
             <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
               <i class="nc-icon nc-simple-remove"></i>
@@ -110,12 +110,12 @@
       <?php } ?>
 
       <?php if($sucesso == 1){ ?>
-        <div style="display: flex; justify-content: flex-end; top: 110px; right: 10px; position: absolute; width: 400px;">
+        <div style="display: flex; justify-content: flex-end; top: 110px; right: 10px; position: absolute; width: 400px; z-index: 99;">
           <div class="alert alert-success alert-dismissible fade show col-md-12">
             <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
               <i class="nc-icon nc-simple-remove"></i>
             </button>
-            <span><b>Feito!</b> <?=$msg_erro;?></span>
+            <span><b>Feito!</b> <?=$msg_sucesso;?></span>
           </div>
         </div>
       <?php } ?>
