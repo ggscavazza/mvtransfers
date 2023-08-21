@@ -106,12 +106,26 @@
                           $nome_cliente = buscaNome($tkn_cliente);
                           $email_cliente = buscaEmail($tkn_cliente);
                           $tel_cliente = buscaTelefone($tkn_cliente);
+                          $data_bruta = explode('-', $dados['data_ida']);
+                          $data_ida = $data_bruta[2].'/'.$data_bruta[1].'/'.$data_bruta[0];
+                          $viatura = $dados['tipo_carro'];
+
+                          if($viatura == "pequena"){
+                            $tam_viatura = "5 lugares";
+                          }else if($viatura == "grande"){
+                            $tam_viatura = "9 lugares";
+                          }else{
+                            $tam_viatura = "7 lugares";
+                          }
                         ?>
                         <tr>
                           <td><?=$nome_cliente;?></td>
                           <td><?=$email_cliente;?></td>
                           <td><?=$tel_cliente;?></td>
-                          <td><?=$dados['origem'];?> à <?=$dados['destino'];?></td>
+                          <td>
+                            <b>DE:</b> <?=$dados['origem'];?><br>
+                            <b>PARA:</b> <?=$dados['destino'];?>
+                          </td>
                           <td>
                             <!-- Button trigger modal -->
                             <button type="button" class="btn btn-info" data-toggle="modal" data-target="#tkn_cliente">
@@ -132,7 +146,75 @@
                               </div>
 
                               <div class="modal-body">
-                                ...
+                                <form>
+                                  <fieldset disabled>
+                                    <div class="form-group">
+                                      <label for="disabledNome">Nome:</label>
+                                      <input type="text" id="disabledNome" class="form-control" placeholder="<?=$nome_cliente;?>">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                      <label for="disabledEmail">E-mail:</label>
+                                      <input type="text" id="disabledEmail" class="form-control" placeholder="<?=$email_cliente;?>">
+                                    </div>
+
+                                    <div class="form-group">
+                                      <label for="disabledTel">Telefone:</label>
+                                      <input type="text" id="disabledTel" class="form-control" placeholder="<?=$tel_cliente;?>">
+                                    </div>                                    
+
+                                    <div class="form-group">
+                                      <label for="disabledTrajeto">Trajeto:</label>
+                                      <input type="text" id="disabledTrajeto" class="form-control" placeholder="DE: <?=$dados['origem'];?> | PARA: <?=$dados['destino'];?>">
+                                    </div>
+
+                                    <div class="form-group">
+                                      <label for="disabledData">Quando?</label>
+                                      <input type="text" id="disabledData" class="form-control" placeholder="<?=$data_ida;?> às <?=$dados['hora_ida'];?>">
+                                    </div>
+
+                                    <div class="form-group">
+                                      <label for="disabledPessoas">Quantas pessoas?</label>
+                                      <input type="text" id="disabledPessoas" class="form-control" placeholder="<?=$dados['qnt_pessoas'];?>">
+                                    </div>
+
+                                    <div class="form-group">
+                                      <label for="disabledCriancas">Quantas crianças?</label>
+                                      <input type="text" id="disabledCriancas" class="form-control" placeholder="<?=$dados['qnt_criancas'];?>">
+                                    </div>
+
+                                    <div class="form-group">
+                                      <label for="disabledMalas">Quantas malas?</label>
+                                      <input type="text" id="disabledMalas" class="form-control" placeholder="<?=$dados['qnt_malas'];?>">
+                                    </div>
+
+                                    <div class="form-group">
+                                      <label for="disabledViatura">Tamanho da viatura:</label>
+                                      <input type="text" id="disabledViatura" class="form-control" placeholder="<?=$tam_viatura;?>">
+                                    </div>
+
+                                    <div class="form-group">
+                                      <label for="disabledValor">Valor estimado:</label>
+                                      <input type="text" id="disabledValor" class="form-control" placeholder="<?=$dados['valor_viagem'];?> €">
+                                    </div>
+
+                                    <div class="form-group">
+                                      <label for="disabledTempo">Tempo estimado:</label>
+                                      <input type="text" id="disabledTempo" class="form-control" placeholder="<?=$dados['tempo_viagem'];?>">
+                                    </div>
+
+                                    <div class="form-group">
+                                      <label for="disabledDist">Distância:</label>
+                                      <input type="text" id="disabledDist" class="form-control" placeholder="<?=$dados['distancia'];?> KM">
+                                    </div>
+                                  </fieldset>
+
+                                  <fieldset>
+                                    
+                                  </fieldset>
+
+                                  <button type="submit" class="btn btn-primary">Submit</button>
+                                </form>
                               </div>
 
                               <div class="modal-footer">
