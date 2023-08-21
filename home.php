@@ -173,7 +173,7 @@
                                       <input type="text" id="disabledData" class="form-control" placeholder="<?=$data_ida;?> às <?=$dados['hora_ida'];?>">
                                     </div>
 
-                                    <div style="display: flex; justify-content: between; width: 100%; gap: 15px;">                                      
+                                    <div style="display: flex; justify-content: space-between; width: 100%; gap: 15px;">                                      
                                       <div class="form-group">
                                         <label for="disabledPessoas">Quantas pessoas?</label>
                                         <input type="text" id="disabledPessoas" class="form-control" placeholder="<?=$dados['qnt_pessoas'];?>">
@@ -185,7 +185,7 @@
                                       </div>
                                     </div>
 
-                                    <div style="display: flex; justify-content: between; width: 100%; gap: 15px;">
+                                    <div style="display: flex; justify-content: space-between; width: 100%; gap: 15px;">
                                       <div class="form-group">
                                         <label for="disabledMalas">Quantas malas?</label>
                                         <input type="text" id="disabledMalas" class="form-control" placeholder="<?=$dados['qnt_malas'];?>">
@@ -197,7 +197,7 @@
                                       </div>
                                     </div>
 
-                                    <div style="display: flex; justify-content: between; width: 100%; gap: 15px;">
+                                    <div style="display: flex; justify-content: space-between; width: 100%; gap: 15px;">
                                       <div class="form-group">
                                         <label for="disabledValor">Valor estimado:</label>
                                         <input type="text" id="disabledValor" class="form-control" placeholder="<?=$dados['valor_viagem'];?> €">
@@ -215,11 +215,8 @@
                                     </div>
                                   </fieldset>
 
-                                  <fieldset>
-                                    
-                                  </fieldset>
-
-                                  <button type="submit" class="btn btn-primary">Submit</button>
+                                  <input type="submit" class="btn btn-success" name="aceitar" value="\ea21 Aceitar">
+                                  <input type="submit" class="btn btn-danger" name="recusar" value="\ea4f Recusar">
                                 </form>
                               </div>
 
