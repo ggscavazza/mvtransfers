@@ -186,7 +186,7 @@
                               </div>
 
                               <div class="modal-body">
-                                <form action="assets/actions/viagem.php">
+                                <form action="assets/actions/viagem.php" method="post">
                                   <fieldset disabled>
                                     <div class="form-group">
                                       <label for="disabledNome">Nome:</label>
