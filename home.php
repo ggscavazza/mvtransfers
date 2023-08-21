@@ -215,7 +215,7 @@
                                     </div>
                                   </fieldset>
 
-                                  <div class="mb-2" style="display: flex; justify-content: flex-end; width: 100%;">
+                                  <div class="mb-2" style="display: flex; justify-content: flex-end; gap: 15px; width: 100%;">
                                     <input type="hidden" name="tkn_solicitante" value="<?=$tkn_cliente;?>">
                                     <input type="hidden" name="id_viagem" value="<?=$dados['id'];?>">
                                     <input type="submit" class="btn btn-success" name="aceitar" value="Aceitar">
