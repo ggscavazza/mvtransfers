@@ -106,7 +106,7 @@
             $num = mysqli_num_rows($res);
 
             if($num > 0){
-                $updt = "UPDATE {$table_prefix}_viagens SET status=1 WHERE id='{$id_viagem}'}";
+                $updt = "UPDATE {$table_prefix}_viagens SET status=1 WHERE id='{$id_viagem}'";
                 mysqli_query($conn, $updt);
 
                 return true;
