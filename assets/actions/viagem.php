@@ -16,6 +16,8 @@
     }
 
     if($_REQUEST['recusar']){
+        echo "entrou";
+        exit();
         $id_viagem = addslashes($_REQUEST['id_viagem']);
 
         $recusar = recusaViagem($id_viagem);
