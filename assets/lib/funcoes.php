@@ -416,4 +416,50 @@
 
         return $str;
     }
+
+    function buscaPerfil($token=null)
+    {
+        global $conn;
+        global $table_prefix;
+
+        $sel = "SELECT * FROM {$table_prefix}_usuarios WHERE token='{$token}'";
+        $res = mysqli_query($conn, $sel);
+        $lnh = mysqli_fetch_array($res);
+        
+        return $lnh;
+    }
+
+    function atualizaPerfil($id_perfil=null, $dados=null)
+    {
+        global $conn;
+        global $table_prefix;
+
+        if(is_null($id_perfil) || $id_perfil == "" || is_null($dados) || $dados == ""){
+            return false;
+        }else{
+            $sel = "SELECT id FROM {$table_prefix}_usuarios WHERE id='{$id_perfil}'";
+            $res = mysqli_query($conn, $sel);
+            $num = mysqli_num_rows($res);
+
+            if($num > 0){
+                $nome = $dados['nome'];
+                $tel = $dados['tel'];
+                $email = $dados['email'];
+                $login = md5($email);
+
+                if(array_key_exists("senha", $dados)) {
+                    $senha = md5($dados['senha']);
+
+                    $updt = "UPDATE {$table_prefix}_usuarios SET nome='{$nome}', telefone='{$tel}', email='{$email}', login='{$login}', senha='{$senha}' WHERE id='{$id_perfil}'";
+                } else {
+                    $updt = "UPDATE {$table_prefix}_usuarios SET nome='{$nome}', telefone='{$tel}', email='{$email}', login='{$login}' WHERE id='{$id_perfil}'";
+                }
+                mysqli_query($conn, $updt);
+
+                return true;
+            }else{
+                return false;
+            }
+        }
+    }
 ?>
