@@ -6,7 +6,16 @@
   $nome = $_SESSION['nome'];
   $token = $_SESSION['token'];
 
-  $status = 2; // Status das viagens que preencherão a lista. As opções são: 0 - cancelada | 1 - aprovada | 2 - em analise
+  if($_REQUEST['ver_aceitas']) {
+    $status = 1; // Status das viagens que preencherão a lista. As opções são: 0 - cancelada | 1 - aprovada | 2 - em analise
+  } else if($_REQUEST['ver_analises']) {
+    $status = 2; // Status das viagens que preencherão a lista. As opções são: 0 - cancelada | 1 - aprovada | 2 - em analise
+  } else if($_REQUEST['ver_recusadas']) {    
+    $status = 0; // Status das viagens que preencherão a lista. As opções são: 0 - cancelada | 1 - aprovada | 2 - em analise
+  } else {
+    $status = 2; // Status das viagens que preencherão a lista. As opções são: 0 - cancelada | 1 - aprovada | 2 - em analise
+  }
+
   $retorno = buscaViagens($status);
 
   if($_REQUEST['e'] == 1){
@@ -125,7 +134,13 @@
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h4 class="card-title"> Viagens para análise</h4>
+                <?php if($status == 0) { ?>
+                  <h4 class="card-title"> Viagens recusadas</h4>
+                <?php } else if($status == 1) { ?>
+                  <h4 class="card-title"> Viagens aceitas</h4>
+                <?php } else { ?>
+                  <h4 class="card-title"> Viagens em análise</h4>
+                <?php } ?>
               </div>
 
               <div class="card-body">
@@ -274,6 +289,24 @@
                   </table>
                 </div>
               </div>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end;">
+              <form action="<?=$_SERVER['PHP_SELF'];?>" method="post">
+                <div class="form-group" style="display: flex; gap: 10px;">
+                  <?php if($status == 2 || $status == 0){ ?>
+                    <input type="submit" class="btn btn-success" name="ver_aceitas" value="Ver aceitas">
+                  <?php } ?>
+                  
+                  <?php if($status == 1 || $status == 0){ ?>
+                    <input type="submit" class="btn btn-info" name="ver_analises" value="Ver em análise">
+                  <?php } ?>
+
+                  <?php if($status == 2 || $status == 1){ ?>
+                    <input type="submit" class="btn btn-danger" name="ver_recusadas" value="Ver recusadas">
+                  <?php } ?>
+                </div>
+              </form>
             </div>
           </div>
         </div>
