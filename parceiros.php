@@ -166,7 +166,7 @@
                           <td>
                             <form action="assets/actions/parceiro.php" method="post">
                               <div class="form-group">
-                                <div style="display: flex; justify-content: flex-end; align-items: center; width: 100%;">
+                                <div style="display: flex; justify-content: flex-end; align-items: center; width: 100%; gap: 10px;">
                                   <input type="hidden" name="id_parceiro" value="<?=$dados['id'];?>">
                                   <input type="submit" class="btn btn-success" name="aceitar" value="Aceitar">
                                   <input type="submit" class="btn btn-danger" name="recusar" value="Recusar">
