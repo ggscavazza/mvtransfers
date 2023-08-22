@@ -195,4 +195,75 @@
             }
         }
     }
+
+    function buscaUsuarios($status=null)
+    {
+        global $conn;
+        global $table_prefix;
+
+        $sel = "SELECT * FROM {$table_prefix}_usuarios WHERE status='$status' ORDER BY id ASC";
+        $res = mysqli_query($conn, $sel);
+
+        return $res;
+    }
+
+    function buscaTipoUsuario($id_tipo=null)
+    {
+        global $conn;
+        global $table_prefix;
+
+        $sel = "SELECT nome FROM {$table_prefix}_tipos_usuarios WHERE id='{$id_tipo}'";
+        $res = mysqli_query($conn, $sel);
+        $lnh = mysqli_fetch_array($res);
+
+        $retorno = $lnh['nome'];
+
+        return $retorno;
+    }
+
+    function ativaUsuario($id_usuario=null)
+    {
+        global $conn;
+        global $table_prefix;
+
+        if(is_null($id_usuario) || $id_usuario == ""){
+            return false;
+        }else{
+            $sel = "SELECT id FROM {$table_prefix}_usuarios WHERE id='{$id_usuario}'";
+            $res = mysqli_query($conn, $sel);
+            $num = mysqli_num_rows($res);
+
+            if($num > 0){
+                $updt = "UPDATE {$table_prefix}_usuarios SET status=1 WHERE id='{$id_usuario}'";
+                mysqli_query($conn, $updt);
+
+                return true;
+            }else{
+                return false;
+            }
+        }
+    }
+
+    function inativaUsuario($id_usuario=null)
+    {
+        global $conn;
+        global $table_prefix;
+
+        if(is_null($id_usuario) || $id_usuario == ""){
+            return false;
+        }else{
+            $sel = "SELECT * FROM {$table_prefix}_usuarios WHERE id='{$id_usuario}'";
+            $res = mysqli_query($conn, $sel);
+            $num = mysqli_num_rows($res);
+
+            if($num > 0){
+                $updt = "UPDATE {$table_prefix}_usuarios SET status=0 WHERE id='{$id_usuario}'";
+                mysqli_query($conn, $updt);
+
+                return true;
+            }else{
+                return false;
+            }
+        }
+    }
 ?>
