@@ -39,251 +39,226 @@
 
 <!doctype html>
 <html>
-<head>
-  <meta charset="utf-8" />
-  <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
-  <link rel="icon" type="image/png" href="assets/img/favicon.png">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <title>
-    MV Transfers - System
-  </title>
-  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
-  <!--     Fonts and icons     -->
-  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
-  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
-  <!-- CSS Files -->
-  <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="assets/css/paper-dashboard.css?v=2.0.1" rel="stylesheet" />
-</head>
+  <head>
+    <?php include("assets/includes/head.php"); ?>
+  </head>
 
-<body class="">
-  <div class="wrapper ">
-    <?php include("assets/includes/sidebar.php"); ?>
+  <body class="">
+    <div class="wrapper ">
+      <?php include("assets/includes/sidebar.php"); ?>
 
-    <div class="main-panel" style="height: 100vh;">
-      <?php include("assets/includes/navbar.php"); ?>
+      <div class="main-panel" style="height: 100vh;">
+        <?php include("assets/includes/navbar.php"); ?>
 
-      <?php if($erro == 1){ ?>
-        <div style="display: flex; justify-content: flex-end; top: 110px; right: 10px; position: absolute; width: 400px; z-index: 99;">
-          <div class="alert alert-danger alert-dismissible fade show col-md-12">
-            <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
-              <i class="nc-icon nc-simple-remove"></i>
-            </button>
-            <span><b>Ops!</b> <?=$msg_erro;?></span>
+        <?php if($erro == 1){ ?>
+          <div style="display: flex; justify-content: flex-end; top: 110px; right: 10px; position: absolute; width: 400px; z-index: 99;">
+            <div class="alert alert-danger alert-dismissible fade show col-md-12">
+              <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
+                <i class="nc-icon nc-simple-remove"></i>
+              </button>
+              <span><b>Ops!</b> <?=$msg_erro;?></span>
+            </div>
           </div>
-        </div>
-      <?php } ?>
+        <?php } ?>
 
-      <?php if($sucesso == 1){ ?>
-        <div style="display: flex; justify-content: flex-end; top: 110px; right: 10px; position: absolute; width: 400px; z-index: 99;">
-          <div class="alert alert-success alert-dismissible fade show col-md-12">
-            <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
-              <i class="nc-icon nc-simple-remove"></i>
-            </button>
-            <span><b>Feito!</b> <?=$msg_sucesso;?></span>
+        <?php if($sucesso == 1){ ?>
+          <div style="display: flex; justify-content: flex-end; top: 110px; right: 10px; position: absolute; width: 400px; z-index: 99;">
+            <div class="alert alert-success alert-dismissible fade show col-md-12">
+              <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
+                <i class="nc-icon nc-simple-remove"></i>
+              </button>
+              <span><b>Feito!</b> <?=$msg_sucesso;?></span>
+            </div>
           </div>
-        </div>
-      <?php } ?>
+        <?php } ?>
 
-      <div class="content">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="card">
-              <div class="card-header">
-                <?php if($status == 0) { ?>
-                  <h4 class="card-title"> Viagens recusadas</h4>
-                <?php } else if($status == 1) { ?>
-                  <h4 class="card-title"> Viagens aceitas</h4>
-                <?php } else { ?>
-                  <h4 class="card-title"> Viagens em análise</h4>
-                <?php } ?>
-              </div>
+        <div class="content">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header">
+                  <?php if($status == 0) { ?>
+                    <h4 class="card-title"> Viagens recusadas</h4>
+                  <?php } else if($status == 1) { ?>
+                    <h4 class="card-title"> Viagens aceitas</h4>
+                  <?php } else { ?>
+                    <h4 class="card-title"> Viagens em análise</h4>
+                  <?php } ?>
+                </div>
 
-              <div class="card-body">
-                <div class="table">
-                  <table class="table table-striped">
-                    <thead class=" text-primary">
-                      <th>Nome</th>
-                      <th>E-mail</th>
-                      <th>Telefone</th>
-                      <th>Trajeto</th>
-                      <th>Informações</th>
-                    </thead>
+                <div class="card-body">
+                  <div class="table">
+                    <table class="table table-striped">
+                      <thead class=" text-primary">
+                        <th>Nome</th>
+                        <th>E-mail</th>
+                        <th>Telefone</th>
+                        <th>Trajeto</th>
+                        <th>Informações</th>
+                      </thead>
 
-                    <tbody>
-                      <?php while($dados = mysqli_fetch_array($retorno)){ ?>
-                        <?php
-                          $tkn_cliente = $dados['solicitante'];
-                          $nome_cliente = buscaNome($tkn_cliente);
-                          $email_cliente = buscaEmail($tkn_cliente);
-                          $tel_cliente = buscaTelefone($tkn_cliente);
-                          $data_bruta = explode('-', $dados['data_ida']);
-                          $data_ida = $data_bruta[2].'/'.$data_bruta[1].'/'.$data_bruta[0];
-                          $viatura = $dados['tipo_carro'];
+                      <tbody>
+                        <?php while($dados = mysqli_fetch_array($retorno)){ ?>
+                          <?php
+                            $tkn_cliente = $dados['solicitante'];
+                            $nome_cliente = buscaNome($tkn_cliente);
+                            $email_cliente = buscaEmail($tkn_cliente);
+                            $tel_cliente = buscaTelefone($tkn_cliente);
+                            $data_bruta = explode('-', $dados['data_ida']);
+                            $data_ida = $data_bruta[2].'/'.$data_bruta[1].'/'.$data_bruta[0];
+                            $viatura = $dados['tipo_carro'];
 
-                          if($viatura == "pequena"){
-                            $tam_viatura = "5 lugares";
-                          }else if($viatura == "grande"){
-                            $tam_viatura = "9 lugares";
-                          }else{
-                            $tam_viatura = "7 lugares";
-                          }
-                        ?>
-                        <tr>
-                          <td><?=$nome_cliente;?></td>
-                          <td><?=$email_cliente;?></td>
-                          <td><?=$tel_cliente;?></td>
-                          <td>
-                            <b>DE:</b> <?=$dados['origem'];?><br>
-                            <b>PARA:</b> <?=$dados['destino'];?>
-                          </td>
-                          <td>
-                            <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#tkn_cliente">
-                              Ver detalhes
-                            </button>
-                          </td>
-                        </tr>
+                            if($viatura == "pequena"){
+                              $tam_viatura = "5 lugares";
+                            }else if($viatura == "grande"){
+                              $tam_viatura = "9 lugares";
+                            }else{
+                              $tam_viatura = "7 lugares";
+                            }
+                          ?>
+                          <tr>
+                            <td><?=$nome_cliente;?></td>
+                            <td><?=$email_cliente;?></td>
+                            <td><?=$tel_cliente;?></td>
+                            <td>
+                              <b>DE:</b> <?=$dados['origem'];?><br>
+                              <b>PARA:</b> <?=$dados['destino'];?>
+                            </td>
+                            <td>
+                              <!-- Button trigger modal -->
+                              <button type="button" class="btn btn-info" data-toggle="modal" data-target="#tkn_cliente">
+                                Ver detalhes
+                              </button>
+                            </td>
+                          </tr>
 
-                        <!-- Modal -->
-                        <div class="modal fade" id="tkn_cliente" tabindex="-1" role="dialog" aria-labelledby="tkn_clienteLabel" aria-hidden="true">
-                          <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <h5 class="modal-title" id="tkn_clienteLabel"><?=$nome_cliente;?></h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                  <span aria-hidden="true">&times;</span>
-                                </button>
-                              </div>
+                          <!-- Modal -->
+                          <div class="modal fade" id="tkn_cliente" tabindex="-1" role="dialog" aria-labelledby="tkn_clienteLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="tkn_clienteLabel"><?=$nome_cliente;?></h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
 
-                              <div class="modal-body">
-                                <form action="assets/actions/viagem.php" method="post">
-                                  <fieldset disabled>
-                                    <div class="form-group">
-                                      <label for="disabledNome">Nome:</label>
-                                      <input type="text" id="disabledNome" class="form-control" placeholder="<?=$nome_cliente;?>">
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                      <label for="disabledEmail">E-mail:</label>
-                                      <input type="text" id="disabledEmail" class="form-control" placeholder="<?=$email_cliente;?>">
-                                    </div>
-
-                                    <div class="form-group">
-                                      <label for="disabledTel">Telefone:</label>
-                                      <input type="text" id="disabledTel" class="form-control" placeholder="<?=$tel_cliente;?>">
-                                    </div>                                    
-
-                                    <div class="form-group">
-                                      <label for="disabledTrajeto">Trajeto:</label>
-                                      <input type="text" id="disabledTrajeto" class="form-control" placeholder="DE: <?=$dados['origem'];?> | PARA: <?=$dados['destino'];?>">
-                                    </div>
-
-                                    <div class="form-group">
-                                      <label for="disabledData">Quando?</label>
-                                      <input type="text" id="disabledData" class="form-control" placeholder="<?=$data_ida;?> às <?=$dados['hora_ida'];?>">
-                                    </div>
-
-                                    <div style="display: flex; justify-content: space-between; width: 100%; gap: 15px;">                                      
+                                <div class="modal-body">
+                                  <form action="assets/actions/viagem.php" method="post">
+                                    <fieldset disabled>
                                       <div class="form-group">
-                                        <label for="disabledPessoas">Quantas pessoas?</label>
-                                        <input type="text" id="disabledPessoas" class="form-control" placeholder="<?=$dados['qnt_pessoas'];?>">
+                                        <label for="disabledNome">Nome:</label>
+                                        <input type="text" id="disabledNome" class="form-control" placeholder="<?=$nome_cliente;?>">
                                       </div>
-  
+                                      
                                       <div class="form-group">
-                                        <label for="disabledCriancas">Quantas crianças?</label>
-                                        <input type="text" id="disabledCriancas" class="form-control" placeholder="<?=$dados['qnt_criancas'];?>">
-                                      </div>
-                                    </div>
-
-                                    <div style="display: flex; justify-content: space-between; width: 100%; gap: 15px;">
-                                      <div class="form-group">
-                                        <label for="disabledMalas">Quantas malas?</label>
-                                        <input type="text" id="disabledMalas" class="form-control" placeholder="<?=$dados['qnt_malas'];?>">
+                                        <label for="disabledEmail">E-mail:</label>
+                                        <input type="text" id="disabledEmail" class="form-control" placeholder="<?=$email_cliente;?>">
                                       </div>
 
                                       <div class="form-group">
-                                        <label for="disabledViatura">Tamanho da viatura:</label>
-                                        <input type="text" id="disabledViatura" class="form-control" placeholder="<?=$tam_viatura;?>">
+                                        <label for="disabledTel">Telefone:</label>
+                                        <input type="text" id="disabledTel" class="form-control" placeholder="<?=$tel_cliente;?>">
+                                      </div>                                    
+
+                                      <div class="form-group">
+                                        <label for="disabledTrajeto">Trajeto:</label>
+                                        <input type="text" id="disabledTrajeto" class="form-control" placeholder="DE: <?=$dados['origem'];?> | PARA: <?=$dados['destino'];?>">
                                       </div>
+
+                                      <div class="form-group">
+                                        <label for="disabledData">Quando?</label>
+                                        <input type="text" id="disabledData" class="form-control" placeholder="<?=$data_ida;?> às <?=$dados['hora_ida'];?>">
+                                      </div>
+
+                                      <div style="display: flex; justify-content: space-between; width: 100%; gap: 15px;">                                      
+                                        <div class="form-group">
+                                          <label for="disabledPessoas">Quantas pessoas?</label>
+                                          <input type="text" id="disabledPessoas" class="form-control" placeholder="<?=$dados['qnt_pessoas'];?>">
+                                        </div>
+    
+                                        <div class="form-group">
+                                          <label for="disabledCriancas">Quantas crianças?</label>
+                                          <input type="text" id="disabledCriancas" class="form-control" placeholder="<?=$dados['qnt_criancas'];?>">
+                                        </div>
+                                      </div>
+
+                                      <div style="display: flex; justify-content: space-between; width: 100%; gap: 15px;">
+                                        <div class="form-group">
+                                          <label for="disabledMalas">Quantas malas?</label>
+                                          <input type="text" id="disabledMalas" class="form-control" placeholder="<?=$dados['qnt_malas'];?>">
+                                        </div>
+
+                                        <div class="form-group">
+                                          <label for="disabledViatura">Tamanho da viatura:</label>
+                                          <input type="text" id="disabledViatura" class="form-control" placeholder="<?=$tam_viatura;?>">
+                                        </div>
+                                      </div>
+
+                                      <div style="display: flex; justify-content: space-between; width: 100%; gap: 15px;">
+                                        <div class="form-group">
+                                          <label for="disabledValor">Valor estimado:</label>
+                                          <input type="text" id="disabledValor" class="form-control" placeholder="<?=$dados['valor_viagem'];?> €">
+                                        </div>
+
+                                        <div class="form-group">
+                                          <label for="disabledTempo">Tempo estimado:</label>
+                                          <input type="text" id="disabledTempo" class="form-control" placeholder="<?=$dados['tempo_viagem'];?>">
+                                        </div>
+
+                                        <div class="form-group">
+                                          <label for="disabledDist">Distância:</label>
+                                          <input type="text" id="disabledDist" class="form-control" placeholder="<?=$dados['distancia'];?> KM">
+                                        </div>
+                                      </div>
+                                    </fieldset>
+
+                                    <div class="mb-2" style="display: flex; justify-content: flex-end; gap: 15px; width: 100%;">
+                                      <input type="hidden" name="id_viagem" value="<?=$dados['id'];?>">
+                                      <input type="submit" class="btn btn-success" name="aceitar" value="Aceitar">
+                                      <input type="submit" class="btn btn-danger" name="recusar" value="Recusar">
                                     </div>
+                                  </form>
+                                </div>
 
-                                    <div style="display: flex; justify-content: space-between; width: 100%; gap: 15px;">
-                                      <div class="form-group">
-                                        <label for="disabledValor">Valor estimado:</label>
-                                        <input type="text" id="disabledValor" class="form-control" placeholder="<?=$dados['valor_viagem'];?> €">
-                                      </div>
-
-                                      <div class="form-group">
-                                        <label for="disabledTempo">Tempo estimado:</label>
-                                        <input type="text" id="disabledTempo" class="form-control" placeholder="<?=$dados['tempo_viagem'];?>">
-                                      </div>
-
-                                      <div class="form-group">
-                                        <label for="disabledDist">Distância:</label>
-                                        <input type="text" id="disabledDist" class="form-control" placeholder="<?=$dados['distancia'];?> KM">
-                                      </div>
-                                    </div>
-                                  </fieldset>
-
-                                  <div class="mb-2" style="display: flex; justify-content: flex-end; gap: 15px; width: 100%;">
-                                    <input type="hidden" name="id_viagem" value="<?=$dados['id'];?>">
-                                    <input type="submit" class="btn btn-success" name="aceitar" value="Aceitar">
-                                    <input type="submit" class="btn btn-danger" name="recusar" value="Recusar">
-                                  </div>
-                                </form>
-                              </div>
-
-                              <div class="modal-footer">
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      <?php } ?>                      
-                    </tbody>
-                  </table>
+                        <?php } ?>                      
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div style="display: flex; justify-content: flex-end;">
-              <form action="<?=$_SERVER['PHP_SELF'];?>" method="post">
-                <div class="form-group" style="display: flex; gap: 10px;">
-                  <?php if($status == 2 || $status == 0){ ?>
-                    <input type="submit" class="btn btn-success" name="ver_aceitas" value="Ver aceitas">
-                  <?php } ?>
-                  
-                  <?php if($status == 1 || $status == 0){ ?>
-                    <input type="submit" class="btn btn-info" name="ver_analises" value="Ver em análise">
-                  <?php } ?>
+              <div style="display: flex; justify-content: flex-end;">
+                <form action="<?=$_SERVER['PHP_SELF'];?>" method="post">
+                  <div class="form-group" style="display: flex; gap: 10px;">
+                    <?php if($status == 2 || $status == 0){ ?>
+                      <input type="submit" class="btn btn-success" name="ver_aceitas" value="Ver aceitas">
+                    <?php } ?>
+                    
+                    <?php if($status == 1 || $status == 0){ ?>
+                      <input type="submit" class="btn btn-info" name="ver_analises" value="Ver em análise">
+                    <?php } ?>
 
-                  <?php if($status == 2 || $status == 1){ ?>
-                    <input type="submit" class="btn btn-danger" name="ver_recusadas" value="Ver recusadas">
-                  <?php } ?>
-                </div>
-              </form>
+                    <?php if($status == 2 || $status == 1){ ?>
+                      <input type="submit" class="btn btn-danger" name="ver_recusadas" value="Ver recusadas">
+                    <?php } ?>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         </div>
+
+        <?php include("assets/includes/footer.php"); ?>
       </div>
-
-      <?php include("assets/includes/footer.php"); ?>
     </div>
-  </div>
-  <!--   Core JS Files   -->
-  <script src="assets/js/core/jquery.min.js"></script>
-  <script src="assets/js/core/popper.min.js"></script>
-  <script src="assets/js/core/bootstrap.min.js"></script>
-  <script src="assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
-  <!--  Google Maps Plugin    -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
-  <!-- Chart JS -->
-  <script src="assets/js/plugins/chartjs.min.js"></script>
-  <!--  Notifications Plugin    -->
-  <script src="assets/js/plugins/bootstrap-notify.js"></script>
-  <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="assets/js/paper-dashboard.min.js?v=2.0.1" type="text/javascript"></script>
-</body>
 
+    <?php include("assets/includes/scripts.php"); ?>
+  </body>
 </html>

@@ -62,7 +62,7 @@
       
         <div class="content">
           <div class="row">          
-            <div class="col-md-12">
+            <div class="col-md-6">
               <div class="card card-user">
                 <div class="card-header">
                   <h5 class="card-title">Meu perfil</h5>
