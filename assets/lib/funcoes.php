@@ -57,6 +57,17 @@
         return $res;
     }
 
+    function buscaMinhasViagens($status, $token)
+    {
+        global $conn;
+        global $table_prefix;
+
+        $sel = "SELECT * FROM {$table_prefix}_viagens WHERE solicitante='{$token}' AND status='$status' ORDER BY id DESC";
+        $res = mysqli_query($conn, $sel);
+
+        return $res;
+    }
+
     function buscaNome($token=null)
     {
         global $conn;

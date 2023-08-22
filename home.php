@@ -16,7 +16,11 @@
     $status = 2; // Status das viagens que preencherão a lista. As opções são: 0 - cancelada | 1 - aprovada | 2 - em analise
   }
 
-  $retorno = buscaViagens($status);
+  if($_SESSION['tipo'] == 1 || $_SESSION['tipo'] == 2) {
+    $retorno = buscaViagens($status);
+  }else{
+    $retorno = buscaMinhasViagens($status, $token);
+  }
 
   if($_REQUEST['e'] == 1){
     $erro = 1;
@@ -89,146 +93,186 @@
                 <div class="card-body">
                   <div class="table">
                     <table class="table table-striped">
-                      <thead class=" text-primary">
-                        <th>Nome</th>
-                        <th>E-mail</th>
-                        <th>Telefone</th>
-                        <th>Trajeto</th>
-                        <th>Informações</th>
-                      </thead>
+                      <?php if($_SESSION['tipo'] == 1 || $_SESSION['tipo'] == 2){ ?>
+                        <thead class=" text-primary">
+                          <th>Nome</th>
+                          <th>E-mail</th>
+                          <th>Telefone</th>
+                          <th>Trajeto</th>
+                          <th>Informações</th>
+                        </thead>
 
-                      <tbody>
-                        <?php while($dados = mysqli_fetch_array($retorno)){ ?>
-                          <?php
-                            $tkn_cliente = $dados['solicitante'];
-                            $nome_cliente = buscaNome($tkn_cliente);
-                            $email_cliente = buscaEmail($tkn_cliente);
-                            $tel_cliente = buscaTelefone($tkn_cliente);
-                            $data_bruta = explode('-', $dados['data_ida']);
-                            $data_ida = $data_bruta[2].'/'.$data_bruta[1].'/'.$data_bruta[0];
-                            $viatura = $dados['tipo_carro'];
+                        <tbody>
+                          <?php while($dados = mysqli_fetch_array($retorno)){ ?>
+                            <?php
+                              $tkn_cliente = $dados['solicitante'];
+                              $nome_cliente = buscaNome($tkn_cliente);
+                              $email_cliente = buscaEmail($tkn_cliente);
+                              $tel_cliente = buscaTelefone($tkn_cliente);
+                              $data_bruta = explode('-', $dados['data_ida']);
+                              $data_ida = $data_bruta[2].'/'.$data_bruta[1].'/'.$data_bruta[0];
+                              $viatura = $dados['tipo_carro'];
 
-                            if($viatura == "pequena"){
-                              $tam_viatura = "5 lugares";
-                            }else if($viatura == "grande"){
-                              $tam_viatura = "9 lugares";
-                            }else{
-                              $tam_viatura = "7 lugares";
-                            }
-                          ?>
-                          <tr>
-                            <td><?=$nome_cliente;?></td>
-                            <td><?=$email_cliente;?></td>
-                            <td><?=$tel_cliente;?></td>
-                            <td>
-                              <b>DE:</b> <?=$dados['origem'];?><br>
-                              <b>PARA:</b> <?=$dados['destino'];?>
-                            </td>
-                            <td>
-                              <!-- Button trigger modal -->
-                              <button type="button" class="btn btn-info" data-toggle="modal" data-target="#tkn_cliente">
-                                Ver detalhes
-                              </button>
-                            </td>
-                          </tr>
+                              if($viatura == "pequena"){
+                                $tam_viatura = "5 lugares";
+                              }else if($viatura == "grande"){
+                                $tam_viatura = "9 lugares";
+                              }else{
+                                $tam_viatura = "7 lugares";
+                              }
+                            ?>
+                            <tr>
+                              <td><?=$nome_cliente;?></td>
+                              <td><?=$email_cliente;?></td>
+                              <td><?=$tel_cliente;?></td>
+                              <td>
+                                <b>DE:</b> <?=$dados['origem'];?><br>
+                                <b>PARA:</b> <?=$dados['destino'];?>
+                              </td>
+                              <td>
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#tkn_cliente">
+                                  Ver detalhes
+                                </button>
+                              </td>
+                            </tr>
 
-                          <!-- Modal -->
-                          <div class="modal fade" id="tkn_cliente" tabindex="-1" role="dialog" aria-labelledby="tkn_clienteLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <h5 class="modal-title" id="tkn_clienteLabel"><?=$nome_cliente;?></h5>
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                  </button>
-                                </div>
+                            <!-- Modal -->
+                            <div class="modal fade" id="tkn_cliente" tabindex="-1" role="dialog" aria-labelledby="tkn_clienteLabel" aria-hidden="true">
+                              <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title" id="tkn_clienteLabel"><?=$nome_cliente;?></h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
 
-                                <div class="modal-body">
-                                  <form action="assets/actions/viagem.php" method="post">
-                                    <fieldset disabled>
-                                      <div class="form-group">
-                                        <label for="disabledNome">Nome:</label>
-                                        <input type="text" id="disabledNome" class="form-control" placeholder="<?=$nome_cliente;?>">
-                                      </div>
-                                      
-                                      <div class="form-group">
-                                        <label for="disabledEmail">E-mail:</label>
-                                        <input type="text" id="disabledEmail" class="form-control" placeholder="<?=$email_cliente;?>">
-                                      </div>
-
-                                      <div class="form-group">
-                                        <label for="disabledTel">Telefone:</label>
-                                        <input type="text" id="disabledTel" class="form-control" placeholder="<?=$tel_cliente;?>">
-                                      </div>                                    
-
-                                      <div class="form-group">
-                                        <label for="disabledTrajeto">Trajeto:</label>
-                                        <input type="text" id="disabledTrajeto" class="form-control" placeholder="DE: <?=$dados['origem'];?> | PARA: <?=$dados['destino'];?>">
-                                      </div>
-
-                                      <div class="form-group">
-                                        <label for="disabledData">Quando?</label>
-                                        <input type="text" id="disabledData" class="form-control" placeholder="<?=$data_ida;?> às <?=$dados['hora_ida'];?>">
-                                      </div>
-
-                                      <div style="display: flex; justify-content: space-between; width: 100%; gap: 15px;">                                      
+                                  <div class="modal-body">
+                                    <form action="assets/actions/viagem.php" method="post">
+                                      <fieldset disabled>
                                         <div class="form-group">
-                                          <label for="disabledPessoas">Quantas pessoas?</label>
-                                          <input type="text" id="disabledPessoas" class="form-control" placeholder="<?=$dados['qnt_pessoas'];?>">
+                                          <label for="disabledNome">Nome:</label>
+                                          <input type="text" id="disabledNome" class="form-control" placeholder="<?=$nome_cliente;?>">
                                         </div>
-    
+                                        
                                         <div class="form-group">
-                                          <label for="disabledCriancas">Quantas crianças?</label>
-                                          <input type="text" id="disabledCriancas" class="form-control" placeholder="<?=$dados['qnt_criancas'];?>">
-                                        </div>
-                                      </div>
-
-                                      <div style="display: flex; justify-content: space-between; width: 100%; gap: 15px;">
-                                        <div class="form-group">
-                                          <label for="disabledMalas">Quantas malas?</label>
-                                          <input type="text" id="disabledMalas" class="form-control" placeholder="<?=$dados['qnt_malas'];?>">
+                                          <label for="disabledEmail">E-mail:</label>
+                                          <input type="text" id="disabledEmail" class="form-control" placeholder="<?=$email_cliente;?>">
                                         </div>
 
                                         <div class="form-group">
-                                          <label for="disabledViatura">Tamanho da viatura:</label>
-                                          <input type="text" id="disabledViatura" class="form-control" placeholder="<?=$tam_viatura;?>">
+                                          <label for="disabledTel">Telefone:</label>
+                                          <input type="text" id="disabledTel" class="form-control" placeholder="<?=$tel_cliente;?>">
+                                        </div>                                    
+
+                                        <div class="form-group">
+                                          <label for="disabledTrajeto">Trajeto:</label>
+                                          <input type="text" id="disabledTrajeto" class="form-control" placeholder="DE: <?=$dados['origem'];?> | PARA: <?=$dados['destino'];?>">
                                         </div>
+
+                                        <div class="form-group">
+                                          <label for="disabledData">Quando?</label>
+                                          <input type="text" id="disabledData" class="form-control" placeholder="<?=$data_ida;?> às <?=$dados['hora_ida'];?>">
+                                        </div>
+
+                                        <div style="display: flex; justify-content: space-between; width: 100%; gap: 15px;">                                      
+                                          <div class="form-group">
+                                            <label for="disabledPessoas">Quantas pessoas?</label>
+                                            <input type="text" id="disabledPessoas" class="form-control" placeholder="<?=$dados['qnt_pessoas'];?>">
+                                          </div>
+      
+                                          <div class="form-group">
+                                            <label for="disabledCriancas">Quantas crianças?</label>
+                                            <input type="text" id="disabledCriancas" class="form-control" placeholder="<?=$dados['qnt_criancas'];?>">
+                                          </div>
+                                        </div>
+
+                                        <div style="display: flex; justify-content: space-between; width: 100%; gap: 15px;">
+                                          <div class="form-group">
+                                            <label for="disabledMalas">Quantas malas?</label>
+                                            <input type="text" id="disabledMalas" class="form-control" placeholder="<?=$dados['qnt_malas'];?>">
+                                          </div>
+
+                                          <div class="form-group">
+                                            <label for="disabledViatura">Tamanho da viatura:</label>
+                                            <input type="text" id="disabledViatura" class="form-control" placeholder="<?=$tam_viatura;?>">
+                                          </div>
+                                        </div>
+
+                                        <div style="display: flex; justify-content: space-between; width: 100%; gap: 15px;">
+                                          <div class="form-group">
+                                            <label for="disabledValor">Valor estimado:</label>
+                                            <input type="text" id="disabledValor" class="form-control" placeholder="<?=$dados['valor_viagem'];?> €">
+                                          </div>
+
+                                          <div class="form-group">
+                                            <label for="disabledTempo">Tempo estimado:</label>
+                                            <input type="text" id="disabledTempo" class="form-control" placeholder="<?=$dados['tempo_viagem'];?>">
+                                          </div>
+
+                                          <div class="form-group">
+                                            <label for="disabledDist">Distância:</label>
+                                            <input type="text" id="disabledDist" class="form-control" placeholder="<?=$dados['distancia'];?> KM">
+                                          </div>
+                                        </div>
+                                      </fieldset>
+
+                                      <div class="mb-2" style="display: flex; justify-content: flex-end; gap: 15px; width: 100%;">
+                                        <input type="hidden" name="id_viagem" value="<?=$dados['id'];?>">
+                                        <input type="submit" class="btn btn-success" name="aceitar" value="Aceitar">
+                                        <input type="submit" class="btn btn-danger" name="recusar" value="Recusar">
                                       </div>
+                                    </form>
+                                  </div>
 
-                                      <div style="display: flex; justify-content: space-between; width: 100%; gap: 15px;">
-                                        <div class="form-group">
-                                          <label for="disabledValor">Valor estimado:</label>
-                                          <input type="text" id="disabledValor" class="form-control" placeholder="<?=$dados['valor_viagem'];?> €">
-                                        </div>
-
-                                        <div class="form-group">
-                                          <label for="disabledTempo">Tempo estimado:</label>
-                                          <input type="text" id="disabledTempo" class="form-control" placeholder="<?=$dados['tempo_viagem'];?>">
-                                        </div>
-
-                                        <div class="form-group">
-                                          <label for="disabledDist">Distância:</label>
-                                          <input type="text" id="disabledDist" class="form-control" placeholder="<?=$dados['distancia'];?> KM">
-                                        </div>
-                                      </div>
-                                    </fieldset>
-
-                                    <div class="mb-2" style="display: flex; justify-content: flex-end; gap: 15px; width: 100%;">
-                                      <input type="hidden" name="id_viagem" value="<?=$dados['id'];?>">
-                                      <input type="submit" class="btn btn-success" name="aceitar" value="Aceitar">
-                                      <input type="submit" class="btn btn-danger" name="recusar" value="Recusar">
-                                    </div>
-                                  </form>
-                                </div>
-
-                                <div class="modal-footer">
-                                  <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                        <?php } ?>                      
-                      </tbody>
+                          <?php } ?>                      
+                        </tbody>
+                      <?php }else{ ?>
+                        <thead class=" text-primary">
+                          <th>Trajeto</th>
+                          <th>Quando?</th>
+                          <th>Viatura</th>
+                          <th>Valor €</th>
+                          <th>Tempo estimado</th>
+                          <th>Distância</th>
+                        </thead>
+
+                        <tbody>
+                          <?php while($dados = mysqli_fetch_array($retorno)){ ?>
+                            <?php
+                              $data_bruta = explode('-', $dados['data_ida']);
+                              $data_ida = $data_bruta[2].'/'.$data_bruta[1].'/'.$data_bruta[0];
+                              $viatura = $dados['tipo_carro'];
+
+                              if($viatura == "pequena"){
+                                $tam_viatura = "5 lugares";
+                              }else if($viatura == "grande"){
+                                $tam_viatura = "9 lugares";
+                              }else{
+                                $tam_viatura = "7 lugares";
+                              }
+                            ?>
+                            <tr>
+                              <td>
+                                <b>DE:</b> <?=$dados['origem'];?><br>
+                                <b>PARA:</b> <?=$dados['destino'];?>
+                              </td>
+                              <td><?=$data_ida;?> às <?=$dados['hora_ida'];?></td>
+                              <td><?=$tam_viatura;?></td>
+                              <td><?=$dados['valor_viagem'];?> €</td>
+                              <td><?=$dados['tempo_viagem'];?></td>
+                              <td><?=$dados['distancia'];?> KM</td>
+                            </tr>
+                          <?php } ?>                      
+                        </tbody>
+                      <?php } ?>
                     </table>
                   </div>
                 </div>

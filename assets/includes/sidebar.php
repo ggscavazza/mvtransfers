@@ -31,19 +31,21 @@
                 </a>
             </li>
 
-            <li <?php if($page == 'parceiros') { ?>class="active"<?php } ?>>
-                <a href="parceiros.php">
-                    <i class="nc-icon nc-delivery-fast"></i>
-                    <p>Parceiros</p>
-                </a>
-            </li>
+            <?php if($_SESSION['tipo'] == 1 || $_SESSION['tipo'] == 2) { ?>
+                <li <?php if($page == 'parceiros') { ?>class="active"<?php } ?>>
+                    <a href="parceiros.php">
+                        <i class="nc-icon nc-delivery-fast"></i>
+                        <p>Parceiros</p>
+                    </a>
+                </li>
 
-            <li <?php if($page == 'usuarios') { ?>class="active"<?php } ?>>
-                <a href="usuarios.php">
-                    <i class="nc-icon nc-circle-10"></i>
-                    <p>Usuários</p>
-                </a>
-            </li>
+                <li <?php if($page == 'usuarios') { ?>class="active"<?php } ?>>
+                    <a href="usuarios.php">
+                        <i class="nc-icon nc-circle-10"></i>
+                        <p>Usuários</p>
+                    </a>
+                </li>
+            <?php } ?>
 
             <li <?php if($page == 'perfil') { ?>class="active"<?php } ?>>
                 <a href="perfil.php">

@@ -39,142 +39,117 @@
 
 <!doctype html>
 <html>
-<head>
-  <meta charset="utf-8" />
-  <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
-  <link rel="icon" type="image/png" href="assets/img/favicon.png">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <title>
-    MV Transfers - System
-  </title>
-  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
-  <!--     Fonts and icons     -->
-  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
-  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
-  <!-- CSS Files -->
-  <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="assets/css/paper-dashboard.css?v=2.0.1" rel="stylesheet" />
-</head>
+  <head>
+    <?php include("assets/includes/head.php"); ?>
+  </head>
 
-<body class="">
-  <div class="wrapper">
-    <?php include("assets/includes/sidebar.php"); ?>
+  <body class="">
+    <div class="wrapper">
+      <?php include("assets/includes/sidebar.php"); ?>
 
-    <div class="main-panel" style="height: 100vh;">
-      <?php include("assets/includes/navbar.php"); ?>
+      <div class="main-panel" style="height: 100vh;">
+        <?php include("assets/includes/navbar.php"); ?>
 
-      <?php if($erro == 1){ ?>
-        <div style="display: flex; justify-content: flex-end; top: 110px; right: 10px; position: absolute; width: 400px; z-index: 99;">
-          <div class="alert alert-danger alert-dismissible fade show col-md-12">
-            <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
-              <i class="nc-icon nc-simple-remove"></i>
-            </button>
-            <span><b>Ops!</b> <?=$msg_erro;?></span>
+        <?php if($erro == 1){ ?>
+          <div style="display: flex; justify-content: flex-end; top: 110px; right: 10px; position: absolute; width: 400px; z-index: 99;">
+            <div class="alert alert-danger alert-dismissible fade show col-md-12">
+              <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
+                <i class="nc-icon nc-simple-remove"></i>
+              </button>
+              <span><b>Ops!</b> <?=$msg_erro;?></span>
+            </div>
           </div>
-        </div>
-      <?php } ?>
+        <?php } ?>
 
-      <?php if($sucesso == 1){ ?>
-        <div style="display: flex; justify-content: flex-end; top: 110px; right: 10px; position: absolute; width: 400px; z-index: 99;">
-          <div class="alert alert-success alert-dismissible fade show col-md-12">
-            <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
-              <i class="nc-icon nc-simple-remove"></i>
-            </button>
-            <span><b>Feito!</b> <?=$msg_sucesso;?></span>
+        <?php if($sucesso == 1){ ?>
+          <div style="display: flex; justify-content: flex-end; top: 110px; right: 10px; position: absolute; width: 400px; z-index: 99;">
+            <div class="alert alert-success alert-dismissible fade show col-md-12">
+              <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
+                <i class="nc-icon nc-simple-remove"></i>
+              </button>
+              <span><b>Feito!</b> <?=$msg_sucesso;?></span>
+            </div>
           </div>
-        </div>
-      <?php } ?>
+        <?php } ?>
 
-      <div class="content">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="card">
-              <div class="card-header">
-                <?php if($status == 0) { ?>
-                  <h4 class="card-title"> Parceiros recusados</h4>
-                <?php } else if($status == 1) { ?>
-                  <h4 class="card-title"> Parceiros aceitos</h4>
-                <?php } else { ?>
-                  <h4 class="card-title"> Parceiros em análise</h4>
-                <?php } ?>
-              </div>
+        <div class="content">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header">
+                  <?php if($status == 0) { ?>
+                    <h4 class="card-title"> Parceiros recusados</h4>
+                  <?php } else if($status == 1) { ?>
+                    <h4 class="card-title"> Parceiros aceitos</h4>
+                  <?php } else { ?>
+                    <h4 class="card-title"> Parceiros em análise</h4>
+                  <?php } ?>
+                </div>
 
-              <div class="card-body">
-                <div class="table">
-                  <table class="table table-striped">
-                    <thead class=" text-primary">
-                      <th>Nome</th>
-                      <th>E-mail</th>
-                      <th>Telefone</th>
-                      <th>Viatura</th>
-                      <th>Onde está?</th>
-                      <th></th>
-                    </thead>
+                <div class="card-body">
+                  <div class="table">
+                    <table class="table table-striped">
+                      <thead class=" text-primary">
+                        <th>Nome</th>
+                        <th>E-mail</th>
+                        <th>Telefone</th>
+                        <th>Viatura</th>
+                        <th>Onde está?</th>
+                        <th></th>
+                      </thead>
 
-                    <tbody>
-                      <?php while($dados = mysqli_fetch_array($retorno)){ ?>
-                        <tr>
-                          <td><?=$dados['nome'];?></td>
-                          <td><?=$dados['email'];?></td>
-                          <td><?=$dados['telefone'];?></td>
-                          <td><?=$dados['carro'];?></td>
-                          <td><?=$dados['localidade'];?></td>
-                          <td>
-                            <form action="assets/actions/parceiro.php" method="post">
-                              <div class="form-group">
-                                <div style="display: flex; justify-content: flex-end; align-items: center; width: 100%; gap: 10px;">
-                                  <input type="hidden" name="id_parceiro" value="<?=$dados['id'];?>">
-                                  <input type="submit" class="btn btn-success" name="aceitar" value="Aceitar">
-                                  <input type="submit" class="btn btn-danger" name="recusar" value="Recusar">
+                      <tbody>
+                        <?php while($dados = mysqli_fetch_array($retorno)){ ?>
+                          <tr>
+                            <td><?=$dados['nome'];?></td>
+                            <td><?=$dados['email'];?></td>
+                            <td><?=$dados['telefone'];?></td>
+                            <td><?=$dados['carro'];?></td>
+                            <td><?=$dados['localidade'];?></td>
+                            <td>
+                              <form action="assets/actions/parceiro.php" method="post">
+                                <div class="form-group">
+                                  <div style="display: flex; justify-content: flex-end; align-items: center; width: 100%; gap: 10px;">
+                                    <input type="hidden" name="id_parceiro" value="<?=$dados['id'];?>">
+                                    <input type="submit" class="btn btn-success" name="aceitar" value="Aceitar">
+                                    <input type="submit" class="btn btn-danger" name="recusar" value="Recusar">
+                                  </div>
                                 </div>
-                              </div>
-                            </form>
-                          </td>
-                        </tr>
-                      <?php } ?>                      
-                    </tbody>
-                  </table>
+                              </form>
+                            </td>
+                          </tr>
+                        <?php } ?>                      
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div style="display: flex; justify-content: flex-end;">
-              <form action="<?=$_SERVER['PHP_SELF'];?>" method="post">
-                <div class="form-group" style="display: flex; gap: 10px;">
-                  <?php if($status == 2 || $status == 0){ ?>
-                    <input type="submit" class="btn btn-success" name="ver_aceitas" value="Ver aceitos">
-                  <?php } ?>
-                  
-                  <?php if($status == 1 || $status == 0){ ?>
-                    <input type="submit" class="btn btn-info" name="ver_analises" value="Ver em análise">
-                  <?php } ?>
+              <div style="display: flex; justify-content: flex-end;">
+                <form action="<?=$_SERVER['PHP_SELF'];?>" method="post">
+                  <div class="form-group" style="display: flex; gap: 10px;">
+                    <?php if($status == 2 || $status == 0){ ?>
+                      <input type="submit" class="btn btn-success" name="ver_aceitas" value="Ver aceitos">
+                    <?php } ?>
+                    
+                    <?php if($status == 1 || $status == 0){ ?>
+                      <input type="submit" class="btn btn-info" name="ver_analises" value="Ver em análise">
+                    <?php } ?>
 
-                  <?php if($status == 2 || $status == 1){ ?>
-                    <input type="submit" class="btn btn-danger" name="ver_recusadas" value="Ver recusados">
-                  <?php } ?>
-                </div>
-              </form>
+                    <?php if($status == 2 || $status == 1){ ?>
+                      <input type="submit" class="btn btn-danger" name="ver_recusadas" value="Ver recusados">
+                    <?php } ?>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         </div>
+
+        <?php include("assets/includes/footer.php"); ?>
       </div>
-
-      <?php include("assets/includes/footer.php"); ?>
     </div>
-  </div>
-  <!--   Core JS Files   -->
-  <script src="assets/js/core/jquery.min.js"></script>
-  <script src="assets/js/core/popper.min.js"></script>
-  <script src="assets/js/core/bootstrap.min.js"></script>
-  <script src="assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
-  <!--  Google Maps Plugin    -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
-  <!-- Chart JS -->
-  <script src="assets/js/plugins/chartjs.min.js"></script>
-  <!--  Notifications Plugin    -->
-  <script src="assets/js/plugins/bootstrap-notify.js"></script>
-  <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="assets/js/paper-dashboard.min.js?v=2.0.1" type="text/javascript"></script>
-</body>
 
+    <?php include("assets/includes/scripts.php"); ?>
+  </body>
 </html>
