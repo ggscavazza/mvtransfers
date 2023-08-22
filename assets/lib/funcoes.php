@@ -138,4 +138,61 @@
             }
         }
     }
+
+    function buscaParceiros($status=null)
+    {
+        global $conn;
+        global $table_prefix;
+
+        $sel = "SELECT * FROM {$table_prefix}_parceiros WHERE status='$status' ORDER BY id ASC";
+        $res = mysqli_query($conn, $sel);
+
+        return $res;
+    }
+
+    function aceitaParceiro($id_parceiro=null)
+    {
+        global $conn;
+        global $table_prefix;
+
+        if(is_null($id_parceiro) || $id_parceiro == ""){
+            return false;
+        }else{
+            $sel = "SELECT id FROM {$table_prefix}_parceiros WHERE id='{$id_parceiro}'";
+            $res = mysqli_query($conn, $sel);
+            $num = mysqli_num_rows($res);
+
+            if($num > 0){
+                $updt = "UPDATE {$table_prefix}_parceiros SET status=1 WHERE id='{$id_parceiro}'";
+                mysqli_query($conn, $updt);
+
+                return true;
+            }else{
+                return false;
+            }
+        }
+    }
+
+    function recusaParceiro($id_parceiro=null)
+    {
+        global $conn;
+        global $table_prefix;
+
+        if(is_null($id_parceiro) || $id_parceiro == ""){
+            return false;
+        }else{
+            $sel = "SELECT * FROM {$table_prefix}_parceiros WHERE id='{$id_parceiro}'";
+            $res = mysqli_query($conn, $sel);
+            $num = mysqli_num_rows($res);
+
+            if($num > 0){
+                $updt = "UPDATE {$table_prefix}_parceiros SET status=0 WHERE id='{$id_parceiro}'";
+                mysqli_query($conn, $updt);
+
+                return true;
+            }else{
+                return false;
+            }
+        }
+    }
 ?>
