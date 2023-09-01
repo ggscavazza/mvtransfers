@@ -53,7 +53,7 @@
           <div class="card" style="width: 40rem; display: flex; flex-direction: column; align-items: center; padding: 20px;">
               <img class="card-img-top" src="assets/img/logo_color_01.png" alt="Logo MV Transfers" style="width: 25%;">
               
-              <div class="card-body" style="width: 30rem;">
+              <div class="card-body" style="width: 100%;">
                 <form action="assets/actions/login.php" method="post">
                   <div class="form-group">
                     <label for="login">Login</label>
@@ -67,7 +67,7 @@
                   </div>
                 
                   <div style="display: flex; justify-content: flex-end; align-items: center; width: 100%;">
-                    <input type="submit" name="entrar" value="Entrar" class="btn btn-primary col-3">
+                    <input type="submit" name="entrar" value="Entrar" class="btn btn-primary col-md-3">
                   </div>
                 </form>
               </div>
