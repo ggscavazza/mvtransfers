@@ -95,6 +95,7 @@
                     <table class="table table-striped">
                       <?php if($_SESSION['tipo'] == 1 || $_SESSION['tipo'] == 2){ ?>
                         <thead class=" text-primary">
+                          <th>Viagem</th>
                           <th>Nome</th>
                           <th>E-mail</th>
                           <th>Telefone</th>
@@ -122,6 +123,7 @@
                               }
                             ?>
                             <tr>
+                              <td><?=$dados['cod_viagem'];?></td>
                               <td><?=$nome_cliente;?></td>
                               <td><?=$email_cliente;?></td>
                               <td><?=$tel_cliente;?></td>
@@ -152,18 +154,18 @@
                                     <form action="assets/actions/viagem.php" method="post">
                                       <fieldset disabled>
                                         <div class="form-group">
-                                          <label for="disabledNome">Nome:</label>
-                                          <input type="text" id="disabledNome" class="form-control" placeholder="<?=$nome_cliente;?>">
+                                          <label for="disabledPickup">Endereço de pick up:</label>
+                                          <input type="text" id="disabledPickup" class="form-control" placeholder="<?=$dados['endereco_partida'];?>">
                                         </div>
                                         
                                         <div class="form-group">
-                                          <label for="disabledEmail">E-mail:</label>
-                                          <input type="text" id="disabledEmail" class="form-control" placeholder="<?=$email_cliente;?>">
+                                          <label for="disabledDropoff">Endereço de drop off:</label>
+                                          <input type="text" id="disabledDropoff" class="form-control" placeholder="<?=$dados['endereco_destino'];?>">
                                         </div>
 
                                         <div class="form-group">
-                                          <label for="disabledTel">Telefone:</label>
-                                          <input type="text" id="disabledTel" class="form-control" placeholder="<?=$tel_cliente;?>">
+                                          <label for="disabledVoo">Nº do Voo:</label>
+                                          <input type="text" id="disabledVoo" class="form-control" placeholder="<?php if($dados['cod_voo']!="" && !is_null($dados['cod_voo'])){ echo $dados['cod_voo']; }else{ echo "Não se aplica"; } ?>">
                                         </div>                                    
 
                                         <div class="form-group">
@@ -199,13 +201,15 @@
                                             <input type="text" id="disabledViatura" class="form-control" placeholder="<?=$tam_viatura;?>">
                                           </div>
                                         </div>
+                                      </fieldset>
 
-                                        <div style="display: flex; justify-content: space-between; width: 100%; gap: 15px;">
-                                          <div class="form-group">
-                                            <label for="disabledValor">Valor estimado:</label>
-                                            <input type="text" id="disabledValor" class="form-control" placeholder="<?=$dados['valor_viagem'];?> €">
-                                          </div>
-
+                                      <div style="display: flex; justify-content: space-between; width: 100%; gap: 15px;">
+                                        <div class="form-group">
+                                          <label for="valor">Valor estimado (€):</label>
+                                          <input type="text" id="valor" class="form-control" name="valor_correto" value="<?=$dados['valor_viagem'];?>">
+                                        </div>                                        
+                                        
+                                        <fieldset disabled>
                                           <div class="form-group">
                                             <label for="disabledTempo">Tempo estimado:</label>
                                             <input type="text" id="disabledTempo" class="form-control" placeholder="<?=$dados['tempo_viagem'];?>">
@@ -215,9 +219,9 @@
                                             <label for="disabledDist">Distância:</label>
                                             <input type="text" id="disabledDist" class="form-control" placeholder="<?=$dados['distancia'];?> KM">
                                           </div>
-                                        </div>
-                                      </fieldset>
-
+                                        </fieldset>
+                                      </div>
+                                      
                                       <div class="mb-2" style="display: flex; justify-content: flex-end; gap: 15px; width: 100%;">
                                         <input type="hidden" name="id_viagem" value="<?=$dados['id'];?>">
                                         <input type="submit" class="btn btn-success" name="aceitar" value="Aceitar">

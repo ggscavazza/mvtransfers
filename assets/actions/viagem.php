@@ -3,13 +3,14 @@
 
     if($_REQUEST['aceitar']){
         $id_viagem = addslashes($_REQUEST['id_viagem']);
+        $euros = addslashes($_REQUEST['valor_correto']);
 
-        $aceitar = aceitaViagem($id_viagem);
+        $aceitar = aceitaViagem($id_viagem, $euros);
 
-        if($aceitar === true){
+        if ($aceitar === true) {
             header('location: ../../home.php?a=1');
             exit();
-        }else{
+        } else {
             header('location: ../../home.php?e=1');
             exit();
         }

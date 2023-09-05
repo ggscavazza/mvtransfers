@@ -110,7 +110,7 @@
         return $retorno;
     }
 
-    function aceitaViagem($id_viagem=null)
+    function aceitaViagem($id_viagem=null, $euros=null)
     {
         global $conn;
         global $table_prefix;
@@ -118,13 +118,33 @@
         if(is_null($id_viagem) || $id_viagem == ""){
             return false;
         }else{
-            $sel = "SELECT id FROM {$table_prefix}_viagens WHERE id='{$id_viagem}'";
+            if($euros != "" && !is_null($euros)){                
+                mysqli_query($conn, "UPDATE {$table_prefix}_viagens SET valor_viagem='{$euros}' WHERE id='{$id_viagem}'");
+            }
+
+            $sel = "SELECT * FROM {$table_prefix}_viagens WHERE id='{$id_viagem}'";
             $res = mysqli_query($conn, $sel);
             $num = mysqli_num_rows($res);
 
             if($num > 0){
+                $lnh = mysqli_fetch_array($res);
+
                 $updt = "UPDATE {$table_prefix}_viagens SET status=1 WHERE id='{$id_viagem}'";
                 mysqli_query($conn, $updt);
+
+                $token = $lnh['solicitante'];
+                $senha_random = $lnh['cod_viagem']; // código da viagem
+                $euros = $lnh['valor_viagem'];
+                $assunto = "aceita_viagem";
+                
+                $selInfo = "SELECT * FROM {$table_prefix}_usuarios WHERE token='{$token}'";
+                $resInfo = mysqli_query($conn, $selInfo);
+                $lnhInfo = mysqli_fetch_array($resInfo);
+
+                $nome = $lnhInfo['nome'];
+                $email = $lnhInfo['email'];
+                
+                disparaEmail($nome, $senha_random, $assunto, $email, $euros);
 
                 return true;
             }else{
@@ -146,8 +166,23 @@
             $num = mysqli_num_rows($res);
 
             if($num > 0){
+                $lnh = mysqli_fetch_array($res);
+
                 $updt = "UPDATE {$table_prefix}_viagens SET status=0 WHERE id='{$id_viagem}'";
                 mysqli_query($conn, $updt);
+
+                $token = $lnh['solicitante'];
+                $senha_random = $lnh['cod_viagem']; // código da viagem
+                $assunto = "recusa_viagem";
+                
+                $selInfo = "SELECT * FROM {$table_prefix}_usuarios WHERE token='{$token}'";
+                $resInfo = mysqli_query($conn, $selInfo);
+                $lnhInfo = mysqli_fetch_array($resInfo);
+
+                $nome = $lnhInfo['nome'];
+                $email = $lnhInfo['email'];
+                
+                disparaEmail($nome, $senha_random, $assunto, $email);
 
                 return true;
             }else{
@@ -336,12 +371,12 @@
         }
     }
 
-    function disparaEmail($nome=null, $senha_random=null, $assunto=null, $email=null)
+    function disparaEmail($nome=null, $senha_random=null, $assunto=null, $email=null, $euros=null)
     {       
         $data_envio = date('d/m/Y');
         $hora_envio = date('H:i:s');
 
-        if($assunto == "aceite_parceiro") {    
+        if ($assunto == "aceite_parceiro") {    
             $assunto = "Retorno sobre parceria - MV Transfers";
 
             $arquivo = "<style type='text/css'>
@@ -367,7 +402,7 @@
                 <p>Atenciosamente,<br>Equipe MVTransfers</p><br>            
                 <p style='margin-top: 2%;'>Este e-mail foi enviado em <b>$data_envio</b> às <b>$hora_envio</b></p>
             </html>";
-        }else if($assunto == "recusa_parceiro") {
+        } else if ($assunto == "recusa_parceiro") {
             $assunto = "Retorno sobre parceria - MV Transfers";
 
             $arquivo = "<style type='text/css'>
@@ -389,7 +424,63 @@
                 <p>Atenciosamente,<br>Equipe MVTransfers</p><br>            
                 <p style='margin-top: 2%;'>Este e-mail foi enviado em <b>$data_envio</b> às <b>$hora_envio</b></p>
             </html>";
-        }    
+        }
+
+        if ($assunto == "aceita_viagem") {
+            $assunto = "Viagem aceita - MV Transfers";
+
+            $arquivo = "<style type='text/css'>
+                body {
+                    margin:0px;
+                    font-family:Verdane;
+                    font-size:20px;
+                    color: #202020;
+                }
+
+                .btn-pagamento {
+                    text-decoration: none;
+                    background-color: green;
+                    color: white;
+                    padding: 10px;
+                    border-radius: 10px;
+                    width: 100px;
+                }
+                </style>
+
+                <html>
+                <head>
+                <meta charset='UTF-8'>
+                </head>
+                <p>Olá {$nome},</p><br>
+                <p>Parabéns! Sua viagem foi aceita.</p>
+                <p>Para finalizar e garantir seu transfer, clique no botão abaixo e realize o pagamento da sua tarifa que ficou em {$euros} €.<br><a href='https://paypal.me/MirianVilella?country.x=PT&locale.x=pt_PT' target='_blank' class='btn-pagamento'>Pagamento PayPal</a></p><br>
+                <p>No campo “A que se destina” digite o seu código de validação que é: <i>{$senha_random}</i></p><br><br>
+                <p>Atenciosamente,<br>Equipe MVTransfers</p><br>            
+                <p style='margin-top: 2%;'>Este e-mail foi enviado em <b>$data_envio</b> às <b>$hora_envio</b></p>
+            </html>";
+        }else if ($assunto == "recusa_viagem") {
+            $assunto = "Viagem recusada - MV Transfers";
+
+            $arquivo = "<style type='text/css'>
+                body {
+                    margin:0px;
+                    font-family:Verdane;
+                    font-size:20px;
+                    color: #202020;
+                }
+                </style>
+
+                <html>
+                <head>
+                <meta charset='UTF-8'>
+                </head>
+                <p>Olá {$nome},</p><br>
+                <p>Que pena! Sua viagem foi recusada.</p>
+                <p>Infelizmente todos os nossos motoristas estão em viagem no momento.</p><br><br>
+                <p>Atenciosamente,<br>Equipe MVTransfers</p><br>            
+                <p style='margin-top: 2%;'>Este e-mail foi enviado em <b>$data_envio</b> às <b>$hora_envio</b></p>
+            </html>";
+        }
 
         /* DISPARA EMAIL PARA O SOLICITANTE */
         //Create an instance; passing `true` enables exceptions
