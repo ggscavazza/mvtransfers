@@ -201,15 +201,8 @@
                                             <input type="text" id="disabledViatura" class="form-control" placeholder="<?=$tam_viatura;?>">
                                           </div>
                                         </div>
-                                      </fieldset>
 
-                                      <div style="display: flex; justify-content: space-between; width: 100%; gap: 15px;">
-                                        <div class="form-group">
-                                          <label for="valor">Valor estimado (€):</label>
-                                          <input type="text" id="valor" class="form-control" name="valor_correto" value="<?=$dados['valor_viagem'];?>">
-                                        </div>                                        
-                                        
-                                        <fieldset disabled>
+                                        <div style="display: flex; justify-content: space-between; width: 100%; gap: 15px;">
                                           <div class="form-group">
                                             <label for="disabledTempo">Tempo estimado:</label>
                                             <input type="text" id="disabledTempo" class="form-control" placeholder="<?=$dados['tempo_viagem'];?>">
@@ -219,7 +212,12 @@
                                             <label for="disabledDist">Distância:</label>
                                             <input type="text" id="disabledDist" class="form-control" placeholder="<?=$dados['distancia'];?> KM">
                                           </div>
-                                        </fieldset>
+                                        </div>
+                                      </fieldset>
+                                      
+                                      <div class="form-group">
+                                        <label for="valor">Valor estimado (€):</label>
+                                        <input type="text" id="valor" class="form-control" name="valor_correto" value="<?=$dados['valor_viagem'];?>">
                                       </div>
                                       
                                       <div class="mb-2" style="display: flex; justify-content: flex-end; gap: 15px; width: 100%;">
